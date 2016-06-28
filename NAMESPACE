@@ -8,4 +8,5 @@ importFrom("stats", "Gamma", "as.formula", "binomial", "dnorm",
 "model.offset", "model.response", "model.weights",
 "dbinom", "dgamma", "pnorm", "poisson", "qnorm")
 importFrom("methods","as", "validObject")
+importFrom("stats", "cor", "dist", "qqline", "qqnorm", "supsmu", "var")
 export("jointfit","DHGLMMODELING")

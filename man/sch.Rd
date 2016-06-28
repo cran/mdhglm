@@ -1,8 +1,8 @@
 \name{sch}
-\Rdversion{1.2}
 \alias{sch}
-\docType{package}
-\title{Schizophrenic Behaviour Data}
+\docType{data}
+\title{Schizophrenic Behaviour Data
+}
 \description{
 Rubin andWu (1997) analyzed schizophrenic behaviour data from an eye-tracking experiment with
 a visual target moving back and forth along a horizontal line on a screen. The outcome measurement
@@ -19,9 +19,9 @@ TR. During each trial, there are 11 cycles, and a gain ratio is recorded for eac
 for some cycles, the gain ratios are missing because of eye blinks, so that there are, on average,
 34 observations out of 55 cycles for each subject. In this paper, we show how to analyze the data,
 assuming missing at random which means the probability of being missing does not depend on the
-values of missing data.
+values of missing data.s
 }
-\usage{data(sch)}
+\usage{data("sch")}
 \format{
   A data frame with 2906 observations on the following 7 variables.
   \describe{

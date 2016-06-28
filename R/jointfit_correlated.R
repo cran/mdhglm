@@ -1,6 +1,6 @@
 jointfit_correlated <-
 function(RespDist="gaussian",BinomialDen=NULL, DataMain, MeanModel,DispersionModel=NULL,
-structure="correlated",mord=0,dord=1,convergence=1e-05,Init_Corr=NULL, EstimateCorrelations=TRUE,ZZCorr=ZZCorr) {
+structure="correlated",mord=0,dord=1,convergence=1e-05,Init_Corr=NULL, EstimateCorrelations=TRUE, ZZCorr=NULL) {
     mc <- match.call()
     N_model<-length(RespDist)
     for (iii in 1:N_model) {
@@ -69,7 +69,7 @@ structure="correlated",mord=0,dord=1,convergence=1e-05,Init_Corr=NULL, EstimateC
          arg2<-res2[[2]]
          XList=list(arg1,arg2)
          ZZIndep=NULL
-##         indepModel=NULL
+         indepModel=NULL
          SSIndep=NULL
          temp3<-cum_p[1]+1
          temp4<-cum_p[1+1]
@@ -125,7 +125,7 @@ structure="correlated",mord=0,dord=1,convergence=1e-05,Init_Corr=NULL, EstimateC
          DRFgamma=NULL
          APMethod="REML" 
 res<-IWLS_CorrZIP(Loadings=Loadings,Correlations=Correlations,corrModel=corrModel,YList=YList,
-            XList=XList,ZZIndep=ZZIndep,SSIndep=SSIndep,
+            XList=XList,ZZIndep=ZZIndep,indepModel=indepModel,SSIndep=SSIndep,
             BetaList=BetaList,Vstart=Vstart,OFFSETList=OFFSETList,
             LinkList=LinkList,DDRIndep=DDRIndep,DRgammaIndep=DRgammaIndep,
             RespDist=RespList,RandDistIndep=RandDistIndep,
@@ -140,103 +140,133 @@ res<-IWLS_CorrZIP(Loadings=Loadings,Correlations=Correlations,corrModel=corrMode
      }  
     
     if (N_model==3) {
-         Loadings=NULL
-         if (is.null(Init_Corr)) Correlations=list(c(0,0,0))
-         else Correlations=Init_Corr
-         corrModel=c(1,2,3)
-         res1<-MakeModel(RespDist=RespDist[1],DataMain=DataMain[[1]],MeanModel=MeanModel[[1]])
-         res2<-MakeModel(RespDist=RespDist[2],DataMain=DataMain[[2]],MeanModel=MeanModel[[2]])
-         res3<-MakeModel(RespDist=RespDist[3],DataMain=DataMain[[3]],MeanModel=MeanModel[[3]])
-         arg1<-matrix(res1[[1]],nrow(DataMain[[1]]),1)
-         arg2<-matrix(res2[[1]],nrow(DataMain[[2]]),1)
-         arg3<-matrix(res3[[1]],nrow(DataMain[[3]]),1)
-         YList=list(arg1,arg2,arg3)
-         arg1<-res1[[2]]
-         arg2<-res2[[2]]
-         arg3<-res3[[2]]
-         XList=list(arg1,arg2,arg3)
-         ZZIndep=NULL
-##         indepModel=NULL
-         SSIndep=NULL
-         temp3<-cum_p[1]+1
-         temp4<-cum_p[1+1]
-         arg1<-beta_h[temp3:temp4]
-         temp3<-cum_p[2]+1
-         temp4<-cum_p[2+1]
-         arg2<-beta_h[temp3:temp4]
-         temp3<-cum_p[3]+1
-         temp4<-cum_p[3+1]
-         arg3<-beta_h[temp3:temp4]
-         BetaList=list(arg1,arg2,arg3)
-         Vstart=NULL
-         OFFSETList=NULL
-         if (RespLink[1]=="identity") arg1<- "Identity"
-         if (RespLink[1]=="log") arg1<- "Log"
-         if (RespLink[1]=="logit") arg1<- "Logit"
-         if (RespLink[1]=="probit") arg1<- "Probit"
-         if (RespLink[1]=="cloglog") arg1<- "CLogLog"
-         if (RespLink[1]=="inverse") arg1<- "Inverse"
-         if (RespLink[2]=="identity") arg2<- "Identity"
-         if (RespLink[2]=="log") arg2<- "Log"
-         if (RespLink[2]=="logit") arg2<- "Logit"
-         if (RespLink[2]=="probit") arg2<- "Probit"
-         if (RespLink[2]=="cloglog") arg2<- "CLogLog"
-         if (RespLink[2]=="inverse") arg2<- "Inverse"
-         if (RespLink[3]=="identity") arg3<- "Identity"
-         if (RespLink[3]=="log") arg3<- "Log"
-         if (RespLink[3]=="logit") arg3<- "Logit"
-         if (RespLink[3]=="probit") arg3<- "Probit"
-         if (RespLink[3]=="cloglog") arg3<- "CLogLog"
-         if (RespLink[3]=="inverse") arg3<- "Inverse"
-         LinkList<-c(arg1,arg2,arg3)
-         DDRIndep=NULL
-         DRgammaIndep=NULL
-         if (RespDist[1]=="gaussian") arg1<- "Normal"
-         if (RespDist[1]=="poisson") arg1<- "Poisson"
-         if (RespDist[1]=="binomial") arg1<- "Binomial"
-         if (RespDist[1]=="gamma") arg1<- "Gamma"
-         if (RespDist[2]=="gaussian") arg2<- "Normal"
-         if (RespDist[2]=="poisson") arg2<- "Poisson"
-         if (RespDist[2]=="binomial") arg2<- "Binomial"
-         if (RespDist[2]=="gamma") arg2<- "Gamma"
-         if (RespDist[3]=="gaussian") arg3<- "Normal"
-         if (RespDist[3]=="poisson") arg3<- "Poisson"
-         if (RespDist[3]=="binomial") arg3<- "Binomial"
-         if (RespDist[3]=="gamma") arg3<- "Gamma"
-         RespList<-c(arg1,arg2,arg3)
-         RandDistIndep=NULL
-         DDY=dbind(dbind(matrix(1,nrow(DataMain[[1]]),1),matrix(1,nrow(DataMain[[2]]),1)),matrix(1,nrow(DataMain[[3]]),1))
-         DYgamma=c(0,0,0)
-         FactDist=NULL
-         FF=NULL
-         SSF=NULL
-         Cmat<-matrix(c(0,1,2,1,0,3,2,3,0),3,3)
-         RandDistCorr=c("Normal","Normal","Normal")
-         DDRCorr=dbind(dbind(matrix(1,qq[1],1),matrix(1,qq[2],1)),matrix(1,qq[3],1))
-         DRCorrgamma=c(0,0,0)
-         CustomVarMat=NULL
-         SSC=SSC
-         EstimateOverDisp=EstimateOverDisp
-         LaplaceFixed=LaplaceFixed
-         EstimateVariances=TRUE
-         Info=TRUE
-         DEBUG=FALSE
-         CONV=convergence
-         DRFgamma=NULL
-         APMethod="REML" 
-res<-IWLS_CorrZIP(Loadings=Loadings,Correlations=Correlations,corrModel=corrModel,YList=YList,
-            XList=XList,ZZIndep=ZZIndep,SSIndep=SSIndep,
-            BetaList=BetaList,Vstart=Vstart,OFFSETList=OFFSETList,
-            LinkList=LinkList,DDRIndep=DDRIndep,DRgammaIndep=DRgammaIndep,
-            RespDist=RespList,RandDistIndep=RandDistIndep,
-            DDY=DDY,DYgamma=DYgamma,
-            FactDist=NULL,FF=NULL,SSF=NULL,CorrMat=list(Cmat),ZZCorr=ZZCorr,
-            RandDistCorr=RandDistCorr,DDRCorr=DDRCorr,
-            DRCorrgamma=DRCorrgamma,CustomVarMat=NULL,
-            SSC=SSC,
-            EstimateOverDisp=EstimateOverDisp,LaplaceFixed=LaplaceFixed,
-            EstimateCorrelations=EstimateCorrelations,EstimateVariances=EstimateVariances,
-            Info=TRUE,DEBUG=FALSE,CONV=convergence,DRFgamma=NULL,APMethod="REML")
-     }  
+          fit1<-dhglmfit_joint(RespDist=RespDist[1],DataMain=DataMain[[1]],MeanModel=MeanModel[[1]],DispersionModel=DispersionModel[[1]],convergence=1e-01)
+          fit2<-dhglmfit_joint(RespDist=RespDist[2],DataMain=DataMain[[2]],MeanModel=MeanModel[[2]],DispersionModel=DispersionModel[[2]],convergence=1e-01)
+          fit3<-dhglmfit_joint(RespDist=RespDist[3],DataMain=DataMain[[3]],MeanModel=MeanModel[[3]],DispersionModel=DispersionModel[[3]],convergence=1e-01)
+	  res<-list(fit1,fit2,fit3)
+          correlation<-cor(cbind(res[[1]]$v_h,res[[2]]$v_h,res[[3]]$v_h))
+          print("==========  Correlation matrix ========== " )
+          print(correlation)                 
+          print("========== Likelihood Function Values and Condition AIC ==========")
+          ml<-fit1$ml+fit2$ml+fit3$ml+fit4$ml
+          rl<-fit1$rl+fit2$rl+fit3$rl+fit4$rl
+          caic<-fit1$caic+fit2$caic+fit3$caic+fit4$caic
+          rownames(likeli_coeff)<-c("-2ML : ", " -2RL : ", "cAIC : ")
+          print(likeli_coeff)
+    }
+#         Loadings=NULL
+#         if (is.null(Init_Corr)) Correlations=list(c(0,0,0))
+#         else Correlations=Init_Corr
+#         corrModel=c(1,2,3)
+#         res1<-MakeModel(RespDist=RespDist[1],DataMain=DataMain[[1]],MeanModel=MeanModel[[1]])
+#         res2<-MakeModel(RespDist=RespDist[2],DataMain=DataMain[[2]],MeanModel=MeanModel[[2]])
+#         res3<-MakeModel(RespDist=RespDist[3],DataMain=DataMain[[3]],MeanModel=MeanModel[[3]])
+#         arg1<-matrix(res1[[1]],nrow(DataMain[[1]]),1)
+#         arg2<-matrix(res2[[1]],nrow(DataMain[[2]]),1)
+#         arg3<-matrix(res3[[1]],nrow(DataMain[[3]]),1)
+#         YList=list(arg1,arg2,arg3)
+#         arg1<-res1[[2]]
+#         arg2<-res2[[2]]
+#         arg3<-res3[[2]]
+#         XList=list(arg1,arg2,arg3)
+#         ZZIndep=NULL
+#         indepModel=NULL
+#         SSIndep=NULL
+#         temp3<-cum_p[1]+1
+#         temp4<-cum_p[1+1]
+#        arg1<-beta_h[temp3:temp4]
+#         temp3<-cum_p[2]+1
+#         temp4<-cum_p[2+1]
+#         arg2<-beta_h[temp3:temp4]
+#         temp3<-cum_p[3]+1
+#         temp4<-cum_p[3+1]
+#         arg3<-beta_h[temp3:temp4]
+#         BetaList=list(arg1,arg2,arg3)
+#         Vstart=NULL
+#         OFFSETList=NULL
+#         if (RespLink[1]=="identity") arg1<- "Identity"
+#         if (RespLink[1]=="log") arg1<- "Log"
+#         if (RespLink[1]=="logit") arg1<- "Logit"
+#         if (RespLink[1]=="probit") arg1<- "Probit"
+#         if (RespLink[1]=="cloglog") arg1<- "CLogLog"
+#         if (RespLink[1]=="inverse") arg1<- "Inverse"
+#         if (RespLink[2]=="identity") arg2<- "Identity"
+#         if (RespLink[2]=="log") arg2<- "Log"
+#         if (RespLink[2]=="logit") arg2<- "Logit"
+#         if (RespLink[2]=="probit") arg2<- "Probit"
+#         if (RespLink[2]=="cloglog") arg2<- "CLogLog"
+#         if (RespLink[2]=="inverse") arg2<- "Inverse"
+#         if (RespLink[3]=="identity") arg3<- "Identity"
+#         if (RespLink[3]=="log") arg3<- "Log"
+#         if (RespLink[3]=="logit") arg3<- "Logit"
+#         if (RespLink[3]=="probit") arg3<- "Probit"
+#         if (RespLink[3]=="cloglog") arg3<- "CLogLog"
+#         if (RespLink[3]=="inverse") arg3<- "Inverse"
+#         LinkList<-c(arg1,arg2,arg3)
+#         DDRIndep=NULL
+#         DRgammaIndep=NULL
+#         if (RespDist[1]=="gaussian") arg1<- "Normal"
+#         if (RespDist[1]=="poisson") arg1<- "Poisson"
+#         if (RespDist[1]=="binomial") arg1<- "Binomial"
+#         if (RespDist[1]=="gamma") arg1<- "Gamma"
+#         if (RespDist[2]=="gaussian") arg2<- "Normal"
+#         if (RespDist[2]=="poisson") arg2<- "Poisson"
+#         if (RespDist[2]=="binomial") arg2<- "Binomial"
+#         if (RespDist[2]=="gamma") arg2<- "Gamma"
+#         if (RespDist[3]=="gaussian") arg3<- "Normal"
+#         if (RespDist[3]=="poisson") arg3<- "Poisson"
+#         if (RespDist[3]=="binomial") arg3<- "Binomial"
+#         if (RespDist[3]=="gamma") arg3<- "Gamma"
+#         RespList<-c(arg1,arg2,arg3)
+#         RandDistIndep=NULL
+#         DDY=dbind(dbind(matrix(1,nrow(DataMain[[1]]),1),matrix(1,nrow(DataMain[[2]]),1)),matrix(1,nrow(DataMain[[3]]),1))
+#         DYgamma=c(0,0,0)
+#         FactDist=NULL
+#         FF=NULL
+#         SSF=NULL
+#         Cmat<-matrix(c(0,1,2,1,0,3,2,3,0),3,3)
+#         RandDistCorr=c("Normal","Normal","Normal")
+#         DDRCorr=dbind(dbind(matrix(1,qq[1],1),matrix(1,qq[2],1)),matrix(1,qq[3],1))
+#         DRCorrgamma=c(0,0,0)
+#         CustomVarMat=NULL
+#         SSC=SSC
+#         EstimateOverDisp=EstimateOverDisp
+#         LaplaceFixed=LaplaceFixed
+#         EstimateVariances=TRUE
+#         Info=TRUE
+#         DEBUG=FALSE
+#         CONV=convergence
+#         DRFgamma=NULL
+#         APMethod="REML" 
+# res<-IWLS_CorrZIP(Loadings=Loadings,Correlations=Correlations,corrModel=corrModel,YList=YList,
+#            XList=XList,ZZIndep=ZZIndep,indepModel=indepModel,SSIndep=SSIndep,
+#            BetaList=BetaList,Vstart=Vstart,OFFSETList=OFFSETList,
+#            LinkList=LinkList,DDRIndep=DDRIndep,DRgammaIndep=DRgammaIndep,
+#            RespDist=RespList,RandDistIndep=RandDistIndep,
+#            DDY=DDY,DYgamma=DYgamma,
+#            FactDist=NULL,FF=NULL,SSF=NULL,CorrMat=list(Cmat),ZZCorr=ZZCorr,
+#            RandDistCorr=RandDistCorr,DDRCorr=DDRCorr,
+#            DRCorrgamma=DRCorrgamma,CustomVarMat=NULL,
+#            SSC=SSC,
+#            EstimateOverDisp=EstimateOverDisp,LaplaceFixed=LaplaceFixed,
+#            EstimateCorrelations=EstimateCorrelations,EstimateVariances=EstimateVariances,
+#            Info=TRUE,DEBUG=FALSE,CONV=convergence,DRFgamma=NULL,APMethod="REML")
+#     }  
+     if (N_model==4) {
+          fit1<-dhglmfit_joint(RespDist=RespDist[1],DataMain=DataMain[[1]],MeanModel=MeanModel[[1]],DispersionModel=DispersionModel[[1]],convergence=1e-01)
+          fit2<-dhglmfit_joint(RespDist=RespDist[2],DataMain=DataMain[[2]],MeanModel=MeanModel[[2]],DispersionModel=DispersionModel[[2]],convergence=1e-01)
+          fit3<-dhglmfit_joint(RespDist=RespDist[3],DataMain=DataMain[[3]],MeanModel=MeanModel[[3]],DispersionModel=DispersionModel[[3]],convergence=1e-01)
+          fit4<-dhglmfit_joint(RespDist=RespDist[4],DataMain=DataMain[[4]],MeanModel=MeanModel[[4]],DispersionModel=DispersionModel[[4]],convergence=1e-01)
+	  res<-list(fit1,fit2,fit3,fit4)
+          correlation<-cor(cbind(res[[1]]$v_h,res[[2]]$v_h,res[[3]]$v_h,res[[4]]$v_h))
+          print("==========  Correlation matrix ========== " )
+          print(correlation)                 
+          print("========== Likelihood Function Values and Condition AIC ==========")
+          ml<-fit1$ml+fit2$ml+fit3$ml+fit4$ml
+          rl<-fit1$rl+fit2$rl+fit3$rl+fit4$rl
+          caic<-fit1$caic+fit2$caic+fit3$caic+fit4$caic
+          rownames(likeli_coeff)<-c("-2ML : ", " -2RL : ", "cAIC : ")
+          print(likeli_coeff)
+     }
      return(res)
 }
