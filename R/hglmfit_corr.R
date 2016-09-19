@@ -18,6 +18,7 @@ Init_lam=0.25,Init_rho=0.174,contrasts=NULL){
     q <- rep(0, nrand)
     for (i in 1:nrand) q[i] <- dim(z[[i]])[2]
     z<-zz<-z[[1]]
+    Maxiter<-1
     if (is.null(spatial)) spatial="IND"
     if (spatial=="IAR" && !is.null(Neighbor)) {
           nn<-nrow(Neighbor)

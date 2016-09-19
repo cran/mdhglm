@@ -6,7 +6,7 @@ importFrom("graphics", "hist", "lines", "par", "plot")
 importFrom("stats", "Gamma", "as.formula", "binomial", "dnorm",
 "gaussian", "glm", "is.empty.model", "model.matrix",
 "model.offset", "model.response", "model.weights",
-"dbinom", "dgamma", "pnorm", "poisson", "qnorm")
+"dbinom", "dgamma", "pnorm", "poisson", "qnorm",
+"cor","dist","qqline","qqnorm","supsmu","var")
 importFrom("methods","as", "validObject")
-importFrom("stats", "cor", "dist", "qqline", "qqnorm", "supsmu", "var")
 export("jointfit","DHGLMMODELING")

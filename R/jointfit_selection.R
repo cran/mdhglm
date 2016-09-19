@@ -111,8 +111,8 @@ structure="selection",mord=0,dord=1,convergence=1e-05,Init_Corr=NULL, EstimateCo
          FF=NULL
          SSF=NULL
          Cmat<-matrix(c(0,1,1,0),2,2)
-          fit1<-dhglmfit_joint(RespDist=RespDist[1],DataMain=DataMain[[1]],MeanModel=MeanModel[[1]],DispersionModel=DispersionModel[[1]],convergence=1e-01,Maxiter=5)
-          fit2<-dhglmfit_joint(RespDist=RespDist[2],DataMain=DataMain[[2]],MeanModel=MeanModel[[2]],DispersionModel=DispersionModel[[2]],convergence=1e-01,Maxiter=5)
+          fit1<-dhglmfit_joint(RespDist=RespDist[1],DataMain=DataMain[[1]],MeanModel=MeanModel[[1]],DispersionModel=DispersionModel[[1]],convergence=1e-01,Maxiter=1)
+          fit2<-dhglmfit_joint(RespDist=RespDist[2],DataMain=DataMain[[2]],MeanModel=MeanModel[[2]],DispersionModel=DispersionModel[[2]],convergence=1e-01,Maxiter=1)
 	  res<-list(fit1,fit2)
           print("==========  Selection Parameter ========== " )
           ystar<-matrix(c(-3.7036,0.2963,-12.4995),1,3)

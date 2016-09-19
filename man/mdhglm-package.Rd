@@ -14,8 +14,8 @@ random effects and their variances and correlations are calculated.
 \tabular{ll}{
 Package: \tab mdhglm\cr
 Type: \tab Package\cr
-Version: \tab 1.4\cr
-Date: \tab 2016-06-28\cr
+Version: \tab 1.6\cr
+Date: \tab 2016-09-19\cr
 License: \tab Unlimited\cr
 LazyLoad: \tab yes\cr
 }

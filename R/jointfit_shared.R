@@ -11,6 +11,7 @@ PhiFix=NULL,LamFix=NULL,structure="shared",mord=0,dord=1,Maxiter=200,convergence
     if (!is.null(PhiFix)) phi<-PhiFix
     lambda_value<-0.5
     if (!is.null(LamFix)) lambda_value<-LamFix
+    Maxiter<-1
     #########################
     for (iii in 1:N_model) {
        res1<-MakeModel(RespDist=RespDist[iii],DataMain=DataMain[[iii]],MeanModel=MeanModel[[iii]])

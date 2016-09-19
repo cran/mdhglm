@@ -15,6 +15,7 @@ BetaFix=NULL,PhiFix=NULL,LamFix=NULL,mord=1,dord=1,REML=TRUE,Maxiter=200,converg
     indicator1<-1
     indicator2<-0
     indicator3<-0
+    Maxiter=1
     random_mean<-findbars(formulaMean)
     if (!is.null(random_mean)) {
       FL <- HGLMFactorList(formulaMean, fr, 0L, 0L)
@@ -901,10 +902,10 @@ else {
     if (RespDist=="poisson" && OverDisp==TRUE) mean_residual<-mean_residual*sqrt(inv_disp)
     md<-RespDist
     names(md)<-"Distribution of Main Response : "
-    print(md)
-    print("Estimates from the model(mu)")
-    print(formulaMean)
-    print(RespLink)
+###    print(md)
+###    print("Estimates from the model(mu)")
+###    print(formulaMean)
+###    print(RespLink)
 #    print(mean_residual)
 #   print(reshglm_lambda)
     if (q[1]==0) {
@@ -919,7 +920,7 @@ else {
         beta_coeff<-cbind(matrix(beta_h),matrix(se_beta),matrix(z_beta))
         colnames(beta_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(beta_coeff) <- namesX
-        print(beta_coeff,4)
+###        print(beta_coeff,4)
     }
     if (length1<=1) {
     if (q[1]>0 && !is.null(q_lambda) && q_lambda[1]==0) {
@@ -934,9 +935,9 @@ else {
         beta_coeff<-cbind(matrix(beta_h),matrix(se_beta),matrix(z_beta))
         colnames(beta_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(beta_coeff) <- namesX
-        print(beta_coeff,4)
-        print("Estimates for logarithm of lambda=var(u_mu)")
-        print(MeanModel[4][[1]])
+###        print(beta_coeff,4)
+###        print("Estimates for logarithm of lambda=var(u_mu)")
+###        print(MeanModel[4][[1]])
 #        myshape<-gamma.shape(resglm_lambda)
         res3<-summary(resglm_lambda,dispersion=1)
         if (!is.null(MeanModel[8][[1]])) res3<-summary(resglm_lambda,dispersion=sqrt(2))
@@ -955,17 +956,17 @@ else {
         colnames(lambda_coeff) <- c("Estimate", "Std. Error", "t-value")
         if (!is.null(MeanModel[8][[1]])) rownames(lambda_coeff) <- namesX_lambda
         else rownames(lambda_coeff) <- namesRE
-        print(lambda_coeff,4)
+###        print(lambda_coeff,4)
     }    
     if (q[1]>0 && !is.null(q_lambda) && q_lambda[1]>0) {
         z_beta<-beta_h/se_beta
         beta_coeff<-cbind(matrix(beta_h),matrix(se_beta),matrix(z_beta))
         colnames(beta_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(beta_coeff) <- namesX
-        print(beta_coeff,4)
-        print("Estimates from the model(lambda=var(u_mu))")
-        print(formulaLambda)
-        print(RandDist_lambda)
+###        print(beta_coeff,4)
+###        print("Estimates from the model(lambda=var(u_mu))")
+###        print(formulaLambda)
+###        print(RandDist_lambda)
         res5<-reshglm_lambda
         temp9<-p_lambda+1
         temp10<-2*p_lambda
@@ -990,21 +991,21 @@ else {
            colnames(lambda_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(lambda_coeff) <- namesRE
         }
-        print(lambda_coeff,4)
-        print("Estimates for logarithm of var(u_lambda)")
+###        print(lambda_coeff,4)
+###        print("Estimates for logarithm of var(u_lambda)")
         beta_alpha<-log(res5[4][[1]])
         se_alpha<-res5[6][[1]]/res5[4][[1]]^2
         z_alpha<-beta_alpha/se_alpha[1,1]
         alpha_coeff<-cbind(matrix(beta_alpha),matrix(se_alpha[1,1]),matrix(z_alpha))
         colnames(alpha_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(alpha_coeff) <- namesRE_lambda
-        print(alpha_coeff,4)
+###        print(alpha_coeff,4)
     }
     if (is.null(PhiFix) && q_disp[1]==0) {
        if (RespDist=="gaussian" || RespDist=="gamma" || OverDisp==TRUE) {
-           print("Estimates from the model(phi)")
-           print(formulaDisp)
-           print(RespLink_disp)
+###           print("Estimates from the model(phi)")
+###           print(formulaDisp)
+###           print(RespLink_disp)
 #           myshape<-gamma.shape(resglm_disp)
            if (RespDist=="gaussian") res2<-summary(resglm_disp,dispersion=1)
            if (RespDist=="gamma") res2<-summary(resglm_disp,dispersion=1)
@@ -1020,14 +1021,14 @@ else {
            phi_coeff<-cbind(matrix(beta_phi),matrix(se_phi),matrix(z_phi_coeff))
            colnames(phi_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(phi_coeff) <- namesX_disp
-           print(phi_coeff,4)
+###           print(phi_coeff,4)
        }
     }
     if (is.null(PhiFix) && q_disp[1]>0) {
        if (RespDist=="gaussian" || RespDist=="gamma" || OverDisp==TRUE) {
-           print("Estimates from the model(phi)")
-           print(formulaDisp)
-           print(RespLink_disp)
+###           print("Estimates from the model(phi)")
+###           print(formulaDisp)
+###           print(RespLink_disp)
            res4<-reshglm_disp
            temp9<-p_disp+1
            temp10<-2*p_disp
@@ -1037,8 +1038,8 @@ else {
            phi_coeff<-cbind(matrix(beta_phi),matrix(se_phi),matrix(z_phi))
            colnames(phi_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(phi_coeff) <- namesX_disp
-           print(phi_coeff,4)
-           print("Estimates for logarithm of var(u_phi)")
+###           print(phi_coeff,4)
+###           print("Estimates for logarithm of var(u_phi)")
            beta_tau<-log(res4[4][[1]])
            se_tau<-res4[6][[1]]/res4[4][[1]]^2
            if (n==236 && OverDisp==TRUE) beta_tau<-beta_tau*0.3
@@ -1047,7 +1048,7 @@ else {
            tau_coeff<-cbind(matrix(beta_tau),matrix(se_tau[1,1]),matrix(z_tau))
            colnames(tau_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(tau_coeff) <- namesRE_disp
-           print(tau_coeff,4)
+###           print(tau_coeff,4)
        }
     }
     }
@@ -1056,20 +1057,20 @@ else {
         beta_coeff<-cbind(matrix(beta_h),matrix(se_beta),matrix(z_beta))
         colnames(beta_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(beta_coeff) <- namesX
-        print(beta_coeff,4)
-        print("Estimates from the model(lambda=var(u_mu))")
-        print(MeanModel[4][[1]])
+###        print(beta_coeff,4)
+###        print("Estimates from the model(lambda=var(u_mu))")
+###        print(MeanModel[4][[1]])
   length2<-length(MeanModel[8][[1]])
   FL <- HGLMFactorList(formulaMean, fr, 0L, 0L)
   zzz <- FL$Design
   convergence2<-0
   convergence21<-0
    for (iiii in 1:length2) {
-      if (iiii==1) print("Estimates from the model(lambda1=var(u_mu))")
-      if (iiii==2) print("Estimates from the model(lambda2=var(u_mu))")
-      if (iiii==3) print("Estimates from the model(lambda3=var(u_mu))")
-      if (iiii==4) print("Estimates from the model(lambda4=var(u_mu))")
-      if (iiii==5) print("Estimates from the model(lambda5=var(u_mu))")
+###      if (iiii==1) print("Estimates from the model(lambda1=var(u_mu))")
+###      if (iiii==2) print("Estimates from the model(lambda2=var(u_mu))")
+###      if (iiii==3) print("Estimates from the model(lambda3=var(u_mu))")
+###      if (iiii==4) print("Estimates from the model(lambda4=var(u_mu))")
+###      if (iiii==5) print("Estimates from the model(lambda5=var(u_mu))")
       zzz1<-zzz[[iiii]]
       formulaLambda<-MeanModel[8][[1]][[iiii]]
       fr_lambda <- HGLMFrames(mc, formulaLambda,contrasts=NULL)
@@ -1120,15 +1121,15 @@ else {
        lambda_coeff<-cbind(matrix(beta_lambda),matrix(se_lambda),matrix(z_lambda))
        colnames(lambda_coeff) <- c("Estimate", "Std. Error", "t-value")
        rownames(lambda_coeff) <- namesX_lambda
-       print(lambda_coeff,4)
-        print("Estimates for logarithm of var(u_lambda)")
+###       print(lambda_coeff,4)
+###        print("Estimates for logarithm of var(u_lambda)")
         beta_alpha<-log(res5[4][[1]])
         se_alpha<-res5[6][[1]]/res5[4][[1]]^2
         z_alpha<-beta_alpha/se_alpha[1,1]
         alpha_coeff<-cbind(matrix(beta_alpha),matrix(se_alpha[1,1]),matrix(z_alpha))
         colnames(alpha_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(alpha_coeff) <- namesRE_lambda
-        print(alpha_coeff,4)
+###        print(alpha_coeff,4)
         model_number1<-1
     }
     if (is.null(random_lambda)) {
@@ -1147,14 +1148,14 @@ else {
         lambda_coeff<-cbind(matrix(lambda_h),matrix(lambda_se),matrix(z_lambda))
         colnames(lambda_coeff) <- c("Estimate", "Std. Error", "t-value")
         rownames(lambda_coeff) <- namesX_lambda
-        print(lambda_coeff,4)
+###        print(lambda_coeff,4)
      }
    }
     if (is.null(PhiFix) && q_disp[1]==0) {
        if (RespDist=="gaussian" || RespDist=="gamma") {
-           print("Estimates from the model(phi)")
-           print(formulaDisp)
-           print(RespLink_disp)
+###           print("Estimates from the model(phi)")
+###           print(formulaDisp)
+###           print(RespLink_disp)
 #           myshape<-gamma.shape(resglm_disp)
            res2<-summary(resglm_disp,dispersion=1)
 ##           res2<-summary(resglm_disp)
@@ -1166,14 +1167,14 @@ else {
            phi_coeff<-cbind(matrix(beta_phi),matrix(se_phi),matrix(z_phi_coeff))
            colnames(phi_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(phi_coeff) <- namesX_disp
-           print(phi_coeff,4)
+###           print(phi_coeff,4)
        }
     }
     if (is.null(PhiFix) && q_disp[1]>0) {
        if (RespDist=="gaussian" || RespDist=="gamma") {
-           print("Estimates from the model(phi)")
-           print(formulaDisp)
-           print(RespLink_disp)
+###           print("Estimates from the model(phi)")
+###           print(formulaDisp)
+###           print(RespLink_disp)
            res4<-reshglm_disp
            temp9<-p_disp+1
            temp10<-2*p_disp
@@ -1183,15 +1184,15 @@ else {
            phi_coeff<-cbind(matrix(beta_phi),matrix(se_phi),matrix(z_phi))
            colnames(phi_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(phi_coeff) <- namesX_disp
-           print(phi_coeff,4)
-           print("Estimates for logarithm of var(u_phi)")
+###           print(phi_coeff,4)
+###           print("Estimates for logarithm of var(u_phi)")
            beta_tau<-log(res4[4][[1]])
            se_tau<-res4[6][[1]]/res4[4][[1]]^2
            z_tau<-beta_tau/se_tau[1,1]
            tau_coeff<-cbind(matrix(beta_tau),matrix(se_tau[1,1]),matrix(z_tau))
            colnames(tau_coeff) <- c("Estimate", "Std. Error", "t-value")
            rownames(tau_coeff) <- namesRE_disp
-           print(tau_coeff,4)
+###           print(tau_coeff,4)
        }
     }
    }

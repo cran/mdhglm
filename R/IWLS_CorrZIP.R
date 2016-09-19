@@ -890,7 +890,7 @@ d2hdranmatCorrCorr <- function(Z,y,mu,Phi,d2vhatdlambda12,dvhatdlambda1,dvhatdla
     Iteration<-0
     Convergence<-100
 
-     while (Convergence>CONV){ 
+###     while (Convergence>CONV){ 
 #     for (iii in 1:1) {   
         Iteration<-Iteration+1
 #        if (Info) cat("\n Iteration: ",Iteration,"     Convergence: ",Convergence,"\n")
@@ -1962,7 +1962,7 @@ d2hdranmatCorrCorr <- function(Z,y,mu,Phi,d2vhatdlambda12,dvhatdlambda1,dvhatdla
     
         Z<-TT[(1:sum(ModelsDims)),((ptot+1):ncol(TT))]                      
             
-    }        
+###     }        
     if (StandardErrors==TRUE) {
     # Now we need standard errors and diagnostics and we are done #
     for (i in 1:length(RandDist)){
