@@ -1,5 +1,4 @@
 import("Matrix")
-import("numDeriv")
 import("boot")
 import("mvtnorm")
 importFrom("graphics", "hist", "lines", "par", "plot")
